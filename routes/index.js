@@ -1,5 +1,5 @@
 // Import Item Controllers
-const itemController = require('../controllers/itemController')
+const itemController = require('../src/controllers/itemController')
 
 const routes = [
   {
@@ -16,7 +16,7 @@ const routes = [
     method: 'POST',
     url: '/api/items',
     handler: itemController.addItem,
-    schema: documentation.addItemSchema
+    schema: itemController.addItemSchema
   },
   {
     method: 'PUT',
