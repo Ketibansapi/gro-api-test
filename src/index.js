@@ -11,7 +11,7 @@ const db = require('../config/keys').MongoURI;
 
 // Connect to database
 mongoose.connect(db, { useNewUrlParser: true })
-.then(() => console.log('MongoDB Connected...'))
+.then(() => console.log('Database Successfully Connected..'))
 .catch(err => console.log(err));
 
 // Declare item routes
