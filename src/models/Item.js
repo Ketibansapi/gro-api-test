@@ -6,6 +6,7 @@ const itemSchema = new mongoose.Schema({
   brand: String,
   price: String,
   quantity: Number,
+  maker_id: ObjectId,
   // services: {
   //   type: Map,
   //   of: String
