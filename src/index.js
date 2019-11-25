@@ -1,24 +1,8 @@
-// Setup the server to test run fastify
-const fastify = require('fastify')({
-    logger: true
-  })
-const mongoose = require('mongoose')
+// Important routes and packages
+const fastify = require('./server.js')
 const routes = require('../routes/')
 const swagger = require('../config/swagger')
 
-// DB connection
-const db = require('../config/keys').MongoURI;
-
-// Connect to database
-mongoose.connect(db, { useNewUrlParser: true })
-.then(() => console.log('Database Successfully Connected..'))
-.catch(err => console.log(err));
-
-// Declare item routes
-routes.forEach((route, index) => {
-  fastify.route(route)
- })
-  
 // First testing route
 fastify.get('/', async (request, reply) => {
   return { hello: 'groo!' }
@@ -26,11 +10,16 @@ fastify.get('/', async (request, reply) => {
 
 // Register Swagger
 fastify.register(require('fastify-swagger'), swagger.options)
+
+// Declare item routes
+routes.forEach((route, index) => {
+  fastify.route(route)
+ })
   
 // Run server
 const start = async () => {
   try {
-    await fastify.listen(3200)
+    await fastify.listen(3200, '0.0.0.0')
     fastify.swagger()
     fastify.log.info(`server listening on ${fastify.server.address().port}`)
   } catch (err) {
