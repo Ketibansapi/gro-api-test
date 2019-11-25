@@ -5,7 +5,7 @@ const boom = require('boom')
 const Item = require('../models/Item')
 
 // Get all items
-exports.getItems = async (req, reply) => {
+exports.getItems = async () => {
   try {
     const items = await Item.find()
     return items
@@ -15,9 +15,9 @@ exports.getItems = async (req, reply) => {
 }
 
 // Get item by ID
-exports.getSingleItem = async (req, reply) => {
+exports.getSingleItem = async req => {
   try {
-    const id = req.params.id
+    const id = req.params === undefined ? req.id : req.params.id
     const item = await Item.findById(id)
     return item
   } catch (err) {
@@ -26,10 +26,11 @@ exports.getSingleItem = async (req, reply) => {
 }
 
 // Add new item
-exports.addItem = async (req, reply) => {
+exports.addItem = async req => {
   try {
-    const item = new Item(req.body)
-    return item.save()
+    const item = new Item(req)
+    const newItem = await item.save()
+    return newItem
   } catch (err) {
     throw boom.boomify(err)
   }
