@@ -78,10 +78,33 @@ const serviceType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
 	name: 'RootQueryType',
 	fields: {
-		item: {},
-		items: {},
-		maker: {},
-		service: {}
+		item: {
+			type: itemType,
+			args: { id: { type: GraphQLID } },
+			async resolve(parent, args) {
+				return await itemController.getSingleItem(args)
+			}
+		},
+		items: {
+			type: new GraphQLList(itemType),
+			async resolve(parent, args) {
+				return await itemController.getItems()
+			}
+		},
+		maker: {
+			type: makerType,
+			args: { id: { type: GraphQLID } },
+			async resolve(parent, args) {
+				return await makerController.getSingleMaker(args)
+			}
+		},
+		service: {
+			type: serviceType,
+			args: { id: { type: GraphQLID } },
+			async resolve(parent, args) {
+				return await serviceController.getSingleService(args)
+			}
+		}
 	}
 })
 
@@ -91,23 +114,41 @@ const Mutations = new GraphQLObjectType({
 	fields: {
 		addItem: {
 			type: itemType,
-			args: {},
-			async resolve(args) {
-				return ''
+			args: {
+				title: { type: new GraphQLNonNull(GraphQLString) },
+				brand: { type: new GraphQLNonNull(GraphQLString) },
+				price: { type: GraphQLString },
+				age: { type: GraphQLInt },
+				maker_id: { type: GraphQLID }
+			},
+			async resolve(parent, args) {
+				const data = await itemController.addItem(args)
+				return data
 			}
 		},
 		editItem: {
 			type: itemType,
-			args: {},
-			async resolve(args) {
-				return ''
+			args: {
+				id: { type: new GraphQLNonNull(GraphQLID) },
+				title: { type: new GraphQLNonNull(GraphQLString) },
+				brand: { type: new GraphQLNonNull(GraphQLString) },
+				price: { type: new GraphQLNonNull(GraphQLString) },
+				age: { type: new GraphQLNonNull(GraphQLInt) },
+				maker_id: { type: GraphQLID }
+			},
+			async resolve(parent, args) {
+				const data = await itemController.updateItem(args)
+				return data
 			}
 		},
 		deleteItem: {
 			type: itemType,
-			args: {},
-			async resolve(args) {
-				return ''
+			args: {
+				id: { type: new GraphQLNonNull(GraphQLID) }
+			},
+			async resolve(parent, args) {
+				const data = await itemController.deleteItem(args)
+				return data
 			}
 		}
 	}
