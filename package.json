@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node ./src/helpers/seed.js"
   },
   "author": "Deary",
   "license": "MIT",
@@ -17,5 +18,8 @@
     "fastify-swagger": "^2.4.0",
     "mongoose": "^5.7.7",
     "nodemon": "^1.19.4"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }

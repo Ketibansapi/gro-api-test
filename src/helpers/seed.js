@@ -64,16 +64,16 @@ const generateItemData = makersIds => {
 	while (i < 1000) {
 		const maker_id = faker.random.arrayElement(makersIds)
 		const itemObject = faker.random.arrayElement(items)
-		const title = faker.random.arrayElement(itemObject.models)
+		const name = faker.random.arrayElement(itemObject.models)
 		const price = faker.random.number({ min: 5000, max: 30000 })
-		const age = faker.random.number({ min: 2, max: 10 })
+		const quantity = faker.random.number({ min: 2, max: 10 })
 
 		const item = {
 			maker_id,
 			brand: itemObject.name,
-			title,
+			name,
 			price,
-			age
+			quantity
 		}
 
 		itemData.push(item)
