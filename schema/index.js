@@ -20,17 +20,58 @@ const serviceController = require('../src/controllers/serviceController')
 // Define Object Types
 const itemType = new GraphQLObjectType({
 	name: 'Item',
-	fields: () => ({})
+	fields: () => ({
+		_id: { type: GraphQLID },
+		name: { type: GraphQLString },
+		brand: { type: GraphQLString },
+		price: { type: GraphQLString },
+		quantity: { type: GraphQLInt },
+		maker_id: { type: GraphQLID },
+		maker: {
+			type: makerType,
+			async resolve(parent, args) {
+				return await makerController.getSingleMaker({ id: parent.maker_id })
+			}
+		},
+		services: {
+			type: new GraphQLList(serviceType),
+			async resolve(parent, args) {
+				return await serviceController.getItemsServices({ id: parent._id })
+			}
+		}
+	})
 })
 
 const makerType = new GraphQLObjectType({
 	name: 'Maker',
-	fields: () => ({})
+	fields: () => ({
+		_id: { type: GraphQLID },
+		firstName: { type: GraphQLString },
+		lastName: { type: GraphQLString },
+		email: { type: GraphQLString },
+		items: {
+			type: new GraphQLList(itemType),
+			async resolve(parent, args) {
+				return await makerController.getMakersItems({ id: parent._id })
+			}
+		}
+	})
 })
 
 const serviceType = new GraphQLObjectType({
 	name: 'Service',
-	fields: () => ({})
+	fields: () => ({
+		_id: { type: GraphQLID },
+		item_id: { type: GraphQLID },
+		name: { type: GraphQLString },
+		date: { type: GraphQLString },
+		item: {
+			type: itemType,
+			async resolve(parent, args) {
+				return await itemController.getSingleItem({ id: parent.item_id })
+			}
+		}
+	})
 })
 
 // Define Root Query
