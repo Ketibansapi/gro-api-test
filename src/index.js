@@ -3,9 +3,21 @@ const fastify = require('./server.js')
 const routes = require('../routes/')
 const swagger = require('../config/swagger')
 
+// Import external dependancies
+const gql = require('fastify-gql')
+
+// Import GraphQL Schema
+const schema = require('../schema/index')
+
 // First testing route
 fastify.get('/', async (request, reply) => {
   return { hello: 'groo!' }
+})
+
+// Register Fastify GraphQL
+fastify.register(gql, {
+  schema,
+  graphiql: true
 })
 
 // Register Swagger
