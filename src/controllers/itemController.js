@@ -6,12 +6,12 @@ const Item = require('../models/Item')
 
 // Get all items
 exports.getItems = async () => {
-  try {
-    const items = await Item.find()
-    return items
-  } catch (err) {
-    throw boom.boomify(err)
-  }
+    try {
+        const items = await Item.find()
+        return items
+    } catch (err) {
+        throw boom.boomify(err)
+    }
 }
 
 // Get item by ID
@@ -37,11 +37,10 @@ exports.addItem = async req => {
 }
 
 // Update an existing item
-exports.updateItem = async (req, reply) => {
+exports.updateItem = async req => {
   try {
-    const id = req.params.id
-    const item = req.body
-    const { ...updateData } = item
+    const id = req.params === undefined ? req.id : req.params.id
+    const updateData = req.params === undefined ? req : req.params
     const update = await Item.findByIdAndUpdate(id, updateData, { new: true })
     return update
   } catch (err) {
@@ -50,9 +49,9 @@ exports.updateItem = async (req, reply) => {
 }
 
 // Delete a item
-exports.deleteItem = async (req, reply) => {
+exports.deleteItem = async req => {
   try {
-    const id = req.params.id
+    const id = req.params === undefined ? req.id : req.params.id
     const item = await Item.findByIdAndRemove(id)
     return item
   } catch (err) {
