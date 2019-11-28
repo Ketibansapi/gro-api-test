@@ -28,7 +28,7 @@ module.exports = (ws, req) => {
         switch (data.method) {
             case 'username' :
                 if(isUsernameTaken(data.params.username)) {
-                    send(ws, {id: data.id, error: {mesage: 'Username is taken'}});
+                    send(ws, {id: data.id, error: {message: 'Username is taken'}});
                 } else {
                     users.push({
                         username: data.params.username,
