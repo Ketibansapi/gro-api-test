@@ -9,6 +9,11 @@ const gql = require('fastify-gql')
 // Import GraphQL Schema
 const schema = require('../schema/index')
 
+// Import webSockets
+fastify.register(require('fastify-ws'))
+
+const WsController = require('./controllers/ws-controller')
+
 // First testing route
 fastify.get('/', async (request, reply) => {
   return { hello: 'groo!' }
@@ -34,6 +39,7 @@ const start = async () => {
     await fastify.listen(3200, '0.0.0.0')
     fastify.swagger()
     fastify.log.info(`server listening on ${fastify.server.address().port}`)
+    fastify.ws.on('connection', WsController)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
