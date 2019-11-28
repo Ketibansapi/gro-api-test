@@ -17,6 +17,7 @@
     "fastify-auth": "^0.6.0",
     "fastify-gql": "^2.0.2",
     "fastify-swagger": "^2.4.0",
+    "fastify-ws": "^1.0.3",
     "graphql": "^14.5.8",
     "mongoose": "^5.7.7",
     "nodemon": "^1.19.4"
